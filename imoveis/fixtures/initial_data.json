@@ -1,0 +1,34 @@
+[
+  { "fields" : { "descricao" : "Alugar" },
+    "model" : "imoveis.tipooperacao",
+    "pk" : 1
+  },
+  { "fields" : { "descricao" : "Vender" },
+    "model" : "imoveis.tipooperacao",
+    "pk" : 2
+  },
+  { "fields" : { "descricao" : "Apartamento" },
+    "model" : "imoveis.tipoimovel",
+    "pk" : 1
+  },
+  { "fields" : { "descricao" : "Casa" },
+    "model" : "imoveis.tipoimovel",
+    "pk" : 2
+  },
+  { "fields" : { "descricao" : "Aldeota" },
+    "model" : "imoveis.bairro",
+    "pk" : 1
+  },
+  { "fields" : { "descricao" : "Dionísio Torres" },
+    "model" : "imoveis.bairro",
+    "pk" : 2
+  },
+  { "fields" : { "descricao" : "Fátima" },
+    "model" : "imoveis.bairro",
+    "pk" : 3
+  },
+  { "fields" : { "descricao" : "Lago Jaracey" },
+    "model" : "imoveis.bairro",
+    "pk" : 4
+  }
+]
