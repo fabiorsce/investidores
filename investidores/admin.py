@@ -4,7 +4,6 @@ from django.contrib.admin.sites import AdminSite
 
 class MyAdminSite(AdminSite):
     pass
-    #or overwrite some methods for different functionality
 
 admin.site.register(Desejo)
 admin.site.register(PrecoMedioBairro)
