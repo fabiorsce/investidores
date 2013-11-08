@@ -11,13 +11,13 @@ class DesejoForm(forms.ModelForm):
         model = Desejo
         
         
-class CriaUsuarioForm(forms.ModelForm):
+class CriaUsuarioForm(forms.Form):
     
+    error_messages = {'duplicate_email': "O email informado ja esta sendo utilizado por outro usuario",
+                      'password_mismatch': "As senhas informadas nao conferem",
+                     }
     
-    error_messages = {
-        'duplicate_email': _("A user with that email already exists."),
-        'password_mismatch': _("The two password fields didn't match."),
-    }
+    nome = forms.CharField(help_text=_("Enter your name."))
     
     email = forms.EmailField(help_text=_("Enter your email."))
     
@@ -27,9 +27,6 @@ class CriaUsuarioForm(forms.ModelForm):
         widget=forms.PasswordInput,
         help_text=_("Enter the same password as above, for verification."))
     
-    class Meta:
-        model = User
-        fields = ("email",)
     
     def clean_email(self):
         # Since User.username is unique, this check is redundant,
@@ -38,9 +35,9 @@ class CriaUsuarioForm(forms.ModelForm):
         username = hashlib.sha1(email.encode('utf-8')).hexdigest()[0:29]
         
         try:
-            User._default_manager.get(username=username)
+            User.objects.get_by_natural_key(username)
         except User.DoesNotExist:
-            return username
+            return email
             #return hashlib.sha1(email.encode('utf-8')).hexdigest()[0:29]
         raise forms.ValidationError(self.error_messages['duplicate_email'])
 
@@ -52,10 +49,14 @@ class CriaUsuarioForm(forms.ModelForm):
                 self.error_messages['password_mismatch'])
         return password2
 
+    
     def save(self, commit=True):
-        user = super().save(commit=False)
-        user.username = hashlib.sha1(self.email.encode('utf-8')).hexdigest()[0:29]
+        user = User()
+        user.username = hashlib.sha1(self.cleaned_data["email"].encode('utf-8')).hexdigest()[0:29]
+        user.email = self.cleaned_data["email"]
+        user.firstname = self.cleaned_data["nome"]
         user.set_password(self.cleaned_data["password1"])
+        user.is_staff = True
         if commit:
             user.save()
         return user
