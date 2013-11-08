@@ -54,7 +54,7 @@ class CriaUsuarioForm(forms.Form):
         user = User()
         user.username = hashlib.sha1(self.cleaned_data["email"].encode('utf-8')).hexdigest()[0:29]
         user.email = self.cleaned_data["email"]
-        user.firstname = self.cleaned_data["nome"]
+        user.first_name = self.cleaned_data["nome"]
         user.set_password(self.cleaned_data["password1"])
         user.is_staff = True
         if commit:
