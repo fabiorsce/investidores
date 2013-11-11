@@ -4,7 +4,7 @@ from django.shortcuts import redirect # Funcao para executar um http-redirect
 from django.contrib.auth.forms import UserCreationForm # Formulario de criacao de usuarios
 from django.contrib.auth.forms import AuthenticationForm # Formulario de autenticacao de usuarios
 from django.contrib.auth import login, authenticate # funcao que salva o usuario na sessao
-from investidores.forms import DesejoForm, CriaUsuarioForm
+from investidores.forms import DesejoForm, CriaUsuarioForm, AutenticaUsuarioForm
 from django.http import HttpResponseRedirect
 
 
@@ -38,6 +38,7 @@ def registrar(request):
 def logar(request):
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST) # Veja a documentacao desta funcao
+        #form = AutenticaUsuarioForm(data=request.POST) # Veja a documentacao desta funcao
         
         if form.is_valid():
             #se o formulario for valido significa que o Django conseguiu encontrar o usuario no banco de dados
@@ -49,3 +50,4 @@ def logar(request):
     
     #se nenhuma informacao for passada, exibe a pagina de login com o formulario
     return render(request, "logar.html", {"form": AuthenticationForm()})
+    #return render(request, "logar.html", {"form": AutenticaUsuarioForm()})

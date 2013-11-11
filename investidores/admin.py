@@ -2,15 +2,8 @@ from investidores.models import Desejo, PrecoMedioBairro
 from django.contrib import admin
 from django.contrib.admin.sites import AdminSite
 
-class MyAdminSite(AdminSite):
-    pass
 
-admin.site.register(Desejo)
-admin.site.register(PrecoMedioBairro)
-
-
-
-class DesejoMyadmin(admin.ModelAdmin):
+class DesejoAdmin(admin.ModelAdmin):
     exclude = ('usuario', 'data_pagamento','data_publicacao', 'expirado',)
     
     def save_model(self, request, obj, form, change):
@@ -18,8 +11,13 @@ class DesejoMyadmin(admin.ModelAdmin):
         obj.save()
     
     def queryset(self, request):
-        qs = super(DesejoMyadmin, self).queryset(request)
+        qs = super(DesejoAdmin, self).queryset(request)
         return qs.filter(usuario=request.user)
+
+
+admin.site.register(Desejo,DesejoAdmin)
+admin.site.register(PrecoMedioBairro)
+
+
+
     
-myadmin = MyAdminSite(name='myadmin')
-myadmin.register(Desejo, DesejoMyadmin)
